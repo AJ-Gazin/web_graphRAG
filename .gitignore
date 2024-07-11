@@ -1,0 +1,7 @@
+pyvenv.cfg
+
+Lib
+Library
+Scripts
+_pycache_
+flagged

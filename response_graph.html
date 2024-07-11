@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "Distraction and Diversion", "label": "Distraction and Diversion", "shape": "dot"}, {"color": "#97c2fc", "id": "RuneScape", "label": "RuneScape", "shape": "dot"}, {"color": "#97c2fc", "id": "17 October 2022", "label": "17 October 2022", "shape": "dot"}, {"color": "#97c2fc", "id": "the Zamorakian Civil War", "label": "the Zamorakian Civil War", "shape": "dot"}, {"color": "#97c2fc", "id": "Nikkel", "label": "Nikkel", "shape": "dot"}, {"color": "#97c2fc", "id": "Wandering Ramokee", "label": "Wandering Ramokee", "shape": "dot"}, {"color": "#97c2fc", "id": "Edgeville", "label": "Edgeville", "shape": "dot"}, {"color": "#97c2fc", "id": "Distractions", "label": "Distractions", "shape": "dot"}, {"color": "#97c2fc", "id": "Minigames", "label": "Minigames", "shape": "dot"}, {"color": "#97c2fc", "id": "Quick Chat", "label": "Quick Chat", "shape": "dot"}, {"color": "#97c2fc", "id": "the Walk on the Wildy Side", "label": "the Walk on the Wildy Side", "shape": "dot"}, {"color": "#97c2fc", "id": "2,000", "label": "2,000", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "Distraction and Diversion", "to": "RuneScape"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "17 October 2022"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "the Zamorakian Civil War"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "Nikkel"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "Wandering Ramokee"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "Edgeville"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "Distractions"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "Minigames"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "Quick Chat"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "the Walk on the Wildy Side"}, {"arrows": "to", "from": "Distraction and Diversion", "to": "2,000"}, {"arrows": "to", "from": "RuneScape", "to": "Distraction and Diversion"}, {"arrows": "to", "from": "RuneScape", "to": "17 October 2022"}, {"arrows": "to", "from": "RuneScape", "to": "the Zamorakian Civil War"}, {"arrows": "to", "from": "RuneScape", "to": "Nikkel"}, {"arrows": "to", "from": "RuneScape", "to": "Wandering Ramokee"}, {"arrows": "to", "from": "RuneScape", "to": "Edgeville"}, {"arrows": "to", "from": "RuneScape", "to": "Distractions"}, {"arrows": "to", "from": "RuneScape", "to": "Minigames"}, {"arrows": "to", "from": "RuneScape", "to": "Quick Chat"}, {"arrows": "to", "from": "RuneScape", "to": "the Walk on the Wildy Side"}, {"arrows": "to", "from": "RuneScape", "to": "2,000"}, {"arrows": "to", "from": "17 October 2022", "to": "Distraction and Diversion"}, {"arrows": "to", "from": "17 October 2022", "to": "RuneScape"}, {"arrows": "to", "from": "17 October 2022", "to": "the Zamorakian Civil War"}, {"arrows": "to", "from": "17 October 2022", "to": "Nikkel"}, {"arrows": "to", "from": "17 October 2022", "to": "Wandering Ramokee"}, {"arrows": "to", "from": "17 October 2022", "to": "Edgeville"}, {"arrows": "to", "from": "17 October 2022", "to": "Distractions"}, {"arrows": "to", "from": "17 October 2022", "to": "Minigames"}, {"arrows": "to", "from": "17 October 2022", "to": "Quick Chat"}, {"arrows": "to", "from": "17 October 2022", "to": "the Walk on the Wildy Side"}, {"arrows": "to", "from": "17 October 2022", "to": "2,000"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "Distraction and Diversion"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "RuneScape"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "17 October 2022"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "Nikkel"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "Wandering Ramokee"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "Edgeville"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "Distractions"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "Minigames"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "Quick Chat"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "the Walk on the Wildy Side"}, {"arrows": "to", "from": "the Zamorakian Civil War", "to": "2,000"}, {"arrows": "to", "from": "Nikkel", "to": "Distraction and Diversion"}, {"arrows": "to", "from": "Nikkel", "to": "RuneScape"}, {"arrows": "to", "from": "Nikkel", "to": "17 October 2022"}, {"arrows": "to", "from": "Nikkel", "to": "the Zamorakian Civil War"}, {"arrows": "to", "from": "Nikkel", "to": "Wandering Ramokee"}, {"arrows": "to", "from": "Nikkel", "to": "Edgeville"}, {"arrows": "to", "from": "Nikkel", "to": "Distractions"}, {"arrows": "to", "from": "Nikkel", "to": "Minigames"}, {"arrows": "to", "from": "Nikkel", "to": "Quick Chat"}, {"arrows": "to", "from": "Nikkel", "to": "the Walk on the Wildy Side"}, {"arrows": "to", "from": "Nikkel", "to": "2,000"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "Distraction and Diversion"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "RuneScape"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "17 October 2022"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "the Zamorakian Civil War"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "Nikkel"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "Edgeville"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "Distractions"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "Minigames"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "Quick Chat"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "the Walk on the Wildy Side"}, {"arrows": "to", "from": "Wandering Ramokee", "to": "2,000"}, {"arrows": "to", "from": "Edgeville", "to": "Distraction and Diversion"}, {"arrows": "to", "from": "Edgeville", "to": "RuneScape"}, {"arrows": "to", "from": "Edgeville", "to": "17 October 2022"}, {"arrows": "to", "from": "Edgeville", "to": "the Zamorakian Civil War"}, {"arrows": "to", "from": "Edgeville", "to": "Nikkel"}, {"arrows": "to", "from": "Edgeville", "to": "Wandering Ramokee"}, {"arrows": "to", "from": "Edgeville", "to": "Distractions"}, {"arrows": "to", "from": "Edgeville", "to": "Minigames"}, {"arrows": "to", "from": "Edgeville", "to": "Quick Chat"}, {"arrows": "to", "from": "Edgeville", "to": "the Walk on the Wildy Side"}, {"arrows": "to", "from": "Edgeville", "to": "2,000"}, {"arrows": "to", "from": "Distractions", "to": "Distraction and Diversion"}, {"arrows": "to", "from": "Distractions", "to": "RuneScape"}, {"arrows": "to", "from": "Distractions", "to": "17 October 2022"}, {"arrows": "to", "from": "Distractions", "to": "the Zamorakian Civil War"}, {"arrows": "to", "from": "Distractions", "to": "Nikkel"}, {"arrows": "to", "from": "Distractions", "to": "Wandering Ramokee"}, {"arrows": "to", "from": "Distractions", "to": "Edgeville"}, {"arrows": "to", "from": "Distractions", "to": "Minigames"}, {"arrows": "to", "from": "Distractions", "to": "Quick Chat"}, {"arrows": "to", "from": "Distractions", "to": "the Walk on the Wildy Side"}, {"arrows": "to", "from": "Distractions", "to": "2,000"}, {"arrows": "to", "from": "Minigames", "to": "Distraction and Diversion"}, {"arrows": "to", "from": "Minigames", "to": "RuneScape"}, {"arrows": "to", "from": "Minigames", "to": "17 October 2022"}, {"arrows": "to", "from": "Minigames", "to": "the Zamorakian Civil War"}, {"arrows": "to", "from": "Minigames", "to": "Nikkel"}, {"arrows": "to", "from": "Minigames", "to": "Wandering Ramokee"}, {"arrows": "to", "from": "Minigames", "to": "Edgeville"}, {"arrows": "to", "from": "Minigames", "to": "Distractions"}, {"arrows": "to", "from": "Minigames", "to": "Quick Chat"}, {"arrows": "to", "from": "Minigames", "to": "the Walk on the Wildy Side"}, {"arrows": "to", "from": "Minigames", "to": "2,000"}, {"arrows": "to", "from": "Quick Chat", "to": "Distraction and Diversion"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
